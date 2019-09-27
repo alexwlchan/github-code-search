@@ -130,18 +130,31 @@ def prepare_html_results(unique_results):
         # less, but I definitely don't quite understand what's going on here!
 
         for lineno, line in enumerate(source_lines, start=1):
+            if not line.strip():
+                continue
+
             for match in result["text_matches"]:
 
                 # Sometimes a fragment only contains the end of the first line
                 # or the start of the last line.
                 if len(match["fragment"].splitlines()) <= 2:
                     complete_fragment_lines = match["fragment"].splitlines()
-                else:
-                    complete_fragment_lines = match["fragment"].splitlines()[1:-1]
 
-                if source_lines[lineno:lineno + len(complete_fragment_lines)] == complete_fragment_lines:
-                    for i in range(lineno, lineno + len(complete_fragment_lines) + 1):
-                        lines_to_show.add(i)
+                    if source_lines[lineno:lineno + len(complete_fragment_lines)] == complete_fragment_lines:
+                        for i in range(lineno, lineno + len(complete_fragment_lines) + 1):
+                            lines_to_show.add(i)
+                else:
+                    fragment_lines = match["fragment"].splitlines()
+                    complete_fragment_lines = fragment_lines[1:-1]
+
+                    if (
+                        source_lines[lineno - 1].endswith(fragment_lines[0]) and
+                        source_lines[lineno:lineno + len(complete_fragment_lines)] == complete_fragment_lines and
+                        source_lines[lineno + len(complete_fragment_lines)].startswith(fragment_lines[-1])
+                    ):
+                        for i in range(lineno, lineno + len(complete_fragment_lines) + 1):
+                            lines_to_show.add(i)
+
 
         # For each line that we're showing, add the corresponding HTML lines.
         #
