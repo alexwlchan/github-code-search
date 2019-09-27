@@ -1,4 +1,8 @@
 docopt
 hyperlink
+jinja2
+more_itertools
+pygments
+tqdm
 unidecode
 urllib3

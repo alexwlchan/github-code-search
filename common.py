@@ -33,7 +33,7 @@ def get_github_api_response(url, api_token=None, headers=None):
     resp = http.request("GET", url, headers=headers)
 
     if resp.status != 200:
-        raise RuntimeException(
+        raise RuntimeError(
             f"Non-200 HTTP status code from GitHub ({resp.status}): {resp.data}")
 
     return resp.data
@@ -52,13 +52,31 @@ def slugify(u):
 
 
 def save_json_response(url, data):
-    out_path = pathlib.Path("_cache") / slugify(str(url))
-    out_path.parent.mkdir(exist_ok=True)
+    cache_path = get_cache_path(url)
+    cache_path.parent.mkdir(exist_ok=True)
 
-    parsed_data = json.loads(data)
-    json_string = json.dumps(parsed_data, indent=2, sort_keys=True)
+    json_string = json.dumps(data, indent=2, sort_keys=True)
 
-    out_path.write_text(json_string)
+    cache_path.write_text(json_string)
 
-    return out_path
+    return cache_path
 
+
+def get_cache_path(url):
+    return pathlib.Path("_cache") / (slugify(str(url)) + ".json")
+
+
+def get_json_response_with_caching(url, *args, **kwargs):
+    """
+    Make a request to the GitHub API, but cache the result.
+    """
+    cache_path = get_cache_path(url)
+
+    try:
+        existing_data = cache_path.read_text()
+    except FileNotFoundError:
+        resp = get_github_api_response(url, *args, **kwargs)
+        save_json_response(url, json.loads(resp))
+        return json.loads(resp)
+    else:
+        return json.loads(existing_data)

@@ -21,7 +21,7 @@ if __name__ == '__main__':
     api_url = hyperlink.URL.from_text("https://api.github.com/search/code")
     query_url = api_url.set("q", args["<SEARCH_TERM>"])
 
-    data = get_github_api_response(
+    resp = get_github_api_response(
         url=str(query_url),
         api_token=args["--api_token"],
 
@@ -30,6 +30,11 @@ if __name__ == '__main__':
         headers={"Accept": "application/vnd.github.v3.text-match+json"}
     )
 
-    out_path = save_json_response(url=query_url, data=data)
+    out_data = {
+        "query": args["<SEARCH_TERM>"],
+        "search_response": json.loads(resp)
+    }
+
+    out_path = save_json_response(url=query_url, data=out_data)
 
     print(out_path)
