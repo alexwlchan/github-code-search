@@ -26,28 +26,13 @@ This token needs the `public_repo` scope.
 
 ## Usage
 
-1.  Call the first script with your query and API token:
+Run the `search_github.py` script, passing your query and API token:
 
-    ```console
-    $ python search_github.py GetObjectRequest --api_token=abc123
-    _cache/https-api-github-com-search-codeqgetobjectrequest.json
-    ```
+```python3
+$ python search_github.py "lang:python requests.get" --api_token=abc123
+```
 
-    The path it prints is a JSON file which contains the response from the GitHub Search API.
-    The response is cached because searching all public repos is a fairly expensive operation, and we don't want to be rate limited.
-
-2.  Call the second script, which takes the path to this JSON file and renders the output as an HTML page.
-    Save the output to a file:
-
-    ```console
-    $ python3 render_search_results.py _cache/https-api-github-com-search-codeqgetobjectrequest.json --api_token=abc123 > getobject_search.html
-    ```
-
-3.  Open the file in your web browser, and scroll through your search results:
-
-    ```console
-    $ open getobject_search.html
-    ```
+This will load the search results, render them as an HTML file, and open the file in your web browser.
 
 ## Next steps
 

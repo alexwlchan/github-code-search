@@ -168,12 +168,7 @@ def render_html_results(html_results, query):
     return template.render(results=html_results, query=query)
 
 
-if __name__ == '__main__':
-    args = docopt.docopt(__doc__)
-
-    search_result_path = args["<SEARCH_RESULT_JSON>"]
-    api_token = args["--api_token"]
-
+def main(search_result_path, api_token):
     search_results = json.load(open(search_result_path))
 
     unique_results = deduplicate_results(
@@ -186,6 +181,17 @@ if __name__ == '__main__':
     html_output = render_html_results(
         html_results=html_results,
         query=search_results["query"]
+    )
+
+    return html_output
+
+
+if __name__ == '__main__':
+    args = docopt.docopt(__doc__)
+
+    html_output = main(
+        search_result_path=args["<SEARCH_RESULT_JSON>"],
+        api_token=args["--api_token"]
     )
 
     print(html_output)
