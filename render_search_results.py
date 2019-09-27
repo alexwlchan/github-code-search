@@ -47,6 +47,7 @@ def deduplicate_results(search_items, api_token=None):
             "path": item["path"],
             "blobs": set(blob_id),
             "text_matches": item["text_matches"],
+            "html_url": item["html_url"],
             "duplicate_results": [],
         }
 
