@@ -70,6 +70,15 @@ I'm not planning to work on it any further, but I did have some ideas on what yo
     Right now it's pretty slow -- it has to fetch the contents of every unique file that appears in the search results.
     Parallelising the HTTP requests or doing something fancy with GraphQL to reduce the number of requests would make it faster.
 
+*   **Pagination.**
+    Right now it only uses the first page of results, even though the API is paginated.
+    It'd be nice to expose later results in some way.
+
+*   **Give more visibility into the duplicate results.**
+    Any duplicate results are just hidden behind "+N duplicates".
+    Completely hiding them is probably a mistake – there might be circumstances in which you want to see the duplicates (although I don't think that's the common use case).
+    It would be good if there was some way to see them if you really wanted.
+
 ## License
 
 MIT.
