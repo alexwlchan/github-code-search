@@ -18,6 +18,7 @@ import more_itertools
 import pygments
 from pygments.formatters import HtmlFormatter
 from pygments.lexers import guess_lexer_for_filename
+import pygments.util
 import tqdm
 
 from common import get_json_response_with_caching
@@ -109,7 +110,11 @@ def prepare_html_results(unique_results):
 
         # Start by rendering the file contents as HTML.  Throw away the opening
         # and closing tags; we'll add those back later.
-        lexer = guess_lexer_for_filename(result["name"], result["content"])
+        try:
+            lexer = guess_lexer_for_filename(result["name"], result["content"])
+        except pygments.util.ClassNotFound:
+            lexer = pygments.lexers.special.TextLexer()
+
         html_output = pygments.highlight(result["content"], lexer, HtmlFormatter())
         html_output = html_output.replace(
             '<div class="highlight"><pre>', '').replace("</pre></div>", "")
