@@ -1,0 +1,4 @@
+# Cached HTTP results from GitHub
+_cache
+
+*.pyc
