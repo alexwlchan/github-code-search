@@ -28,7 +28,7 @@ This token needs the `public_repo` scope.
 
 Run the `search_github.py` script, passing your query and API token:
 
-```python3
+```console
 $ python search_github.py "lang:python requests.get" --api_token=abc123
 ```
 
