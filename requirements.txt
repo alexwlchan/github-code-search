@@ -5,12 +5,22 @@
 #    pip-compile
 #
 docopt==0.6.2
+    # via -r requirements.in
 hyperlink==19.0.0
-idna==2.8                 # via hyperlink
+    # via -r requirements.in
+idna==2.8
+    # via hyperlink
 jinja2==2.10.1
-markupsafe==1.1.1         # via jinja2
+    # via -r requirements.in
+markupsafe==1.1.1
+    # via jinja2
 more-itertools==7.2.0
-pygments==2.4.2
+    # via -r requirements.in
+pygments==2.7.4
+    # via -r requirements.in
 tqdm==4.36.1
+    # via -r requirements.in
 unidecode==1.1.1
+    # via -r requirements.in
 urllib3==1.25.6
+    # via -r requirements.in
